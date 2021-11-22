@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+	font-family: 'Poppins', sans-serif;
+	background: #f4f4f4;
+	min-height: 100vh;
+}
+
+.bg-btn {
+	background: rgb(62, 251, 149);
+	background: linear-gradient(
+		155deg,
+		rgba(62, 251, 149, 1) 0%,
+		rgba(222, 248, 82, 1) 100%
+	);
+	color: black;
+}
+
+.box-shadow {
+	box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
