@@ -7,6 +7,12 @@ import useAxios from '../../../../hooks/useAxios';
 import useAuth from '../../../../hooks/useAuth';
 import { Avatar } from '@mui/material';
 
+// 'pending',
+// 	'under-review',
+// 	'planned',
+// 	'in-progress',
+// 	'complete',
+
 const FeatureRequestCard = ({ featureRequest }) => {
 	const {
 		_id,
@@ -23,6 +29,25 @@ const FeatureRequestCard = ({ featureRequest }) => {
 	const { user } = useAuth();
 	const navigate = useNavigate();
 	const [voteList, setVoteList] = useState([...votes]);
+
+	// getting status color
+	let statusColor = '';
+	switch (status) {
+		case 'pending':
+			statusColor = ' bg-purple-200 text-purple-500';
+			break;
+		case 'under-review':
+			statusColor = ' bg-indigo-200 text-indigo-500';
+			break;
+		case 'planned':
+			statusColor = ' bg-blue-200 text-blue-500';
+			break;
+		case 'in-progress':
+			statusColor = ' bg-yellow-200 text-yellow-500';
+			break;
+		default:
+			statusColor = ' bg-green-200 text-green-500';
+	}
 
 	const handleRequestVoting = (request_id, user_id) => {
 		let newVotes = [];
@@ -53,7 +78,7 @@ const FeatureRequestCard = ({ featureRequest }) => {
 		<div className='box-shadow rounded-lg p-2 space-y-2 text-gray-500'>
 			{/* status & time */}
 			<div className='flex justify-between items-center text-sm'>
-				<p className='px-2 py-1 bg-purple-200 text-purple-500 rounded-lg'>
+				<p className={`px-2 py-1 rounded-lg ${statusColor}`}>
 					{status}
 				</p>
 				<p>{moment(createdAt).format('lll')}</p>
