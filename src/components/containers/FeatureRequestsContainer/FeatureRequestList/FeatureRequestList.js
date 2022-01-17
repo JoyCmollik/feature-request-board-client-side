@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useAxios from '../../../../hooks/useAxios';
 import FeatureRequestCard from '../FeatureRequestCard/FeatureRequestCard';
 import FeatureRequestFilter from '../FeatureRequestFilter/FeatureRequestFilter';
 import { BsSearch } from 'react-icons/bs';
+import Pagination from '@mui/material/Pagination';
+import loading from '../../../../images/loading.png';
 
 const FeatureRequestList = () => {
 	const [featureRequests, setFeatureRequests] = useState([]);
 	const [displayRequests, setDisplayRequests] = useState([]);
 	const [filterStatus, setFilterStatus] = useState('all-status');
+	const [isLoading, setIsLoading] = useState(true);
 	const [sortBy, setSortBy] = useState({
 		id: 1,
 		type: 'Newest',
@@ -16,18 +19,53 @@ const FeatureRequestList = () => {
 	});
 	const { client } = useAxios();
 
+	// pagination states
+	const [page, setPage] = useState(1);
+	const [pageCount, setPageCount] = useState(0);
+	const [dataSize, setDataSize] = useState(5);
+	const [dataCount, setDataCount] = useState(0);
+
 	// fetching requests
 	useEffect(() => {
 		client
-			.get('/requests')
+			.get(`/requests/?page=${page}&&size=${dataSize}`)
 			.then((response) => {
-				setFeatureRequests(response.data);
-				setDisplayRequests(response.data);
+				const requests = response.data.requests;
+				setFeatureRequests(requests);
+				setDisplayRequests(requests);
+				setIsLoading(false);
+
+				// pagination
+				const count = response.data.count;
+				const newPageCount = Math.ceil(count / dataSize);
+				setPageCount(newPageCount);
+				setDataCount(count);
 			})
 			.catch((error) => {
 				console.log(error);
 			});
-	}, []);
+	}, [page, dataSize]);
+
+	// pagination functionalities
+	const handlePageChange = (e, value) => {
+		setPage(value);
+		setIsLoading(true);
+	};
+
+	const getDataPerPageList = () => {
+		let dataSizeList = [];
+		for (let i = 5; i <= dataCount; i += 5) {
+			dataSizeList.push(i);
+		}
+
+		return dataSizeList;
+	};
+
+	const handleDataSizePerPage = (e) => {
+		setDataSize(e.target.value);
+		setPage(1);
+		setIsLoading(true);
+	};
 
 	// handle search input value
 	const handleSearchValue = (e) => {
@@ -133,8 +171,8 @@ const FeatureRequestList = () => {
 			</div>
 			<div className='col-span-12 lg:col-span-8 p-4 space-y-4'>
 				{/* search query */}
-				<div className=''>
-					<div className='flex items-center space-x box-shadow border rounded-lg'>
+				<div className='flex justify-between items-center space-x-5'>
+					<div className='flex-grow flex items-center space-x box-shadow border rounded-lg'>
 						<BsSearch
 							style={{ fontSize: '20px', margin: '0 10px' }}
 						/>
@@ -145,14 +183,50 @@ const FeatureRequestList = () => {
 							placeholder='Search by keywords'
 						/>
 					</div>
+					{/* set dataSize per page */}
+					<div className='h-full flex justify-between items-center space-x-1'>
+						<label htmlFor='data-size'>show requests</label>
+						<select
+							className='p-2 border box-shadow rounded-lg outline-none focus:ring-1 focus:ring-primary'
+							id='data-size'
+							defaultValue={dataSize}
+							onChange={handleDataSizePerPage}
+						>
+							{getDataPerPageList().map((size, sizeIdx) => (
+								<option key={sizeIdx} value={size}>
+									{size}
+								</option>
+							))}
+						</select>
+					</div>
 				</div>
-				{displayRequests &&
-					displayRequests.map((featureRequest) => (
-						<FeatureRequestCard
-							key={featureRequest._id}
-							featureRequest={featureRequest}
-						/>
-					))}
+				<div>
+					{isLoading ? (
+						<div className='flex justify-center items-center h-40'>
+							<img
+								className='w-14 mx-auto'
+								src={loading}
+								alt='loading icons'
+							/>
+						</div>
+					) : (
+						<>
+							{displayRequests &&
+								displayRequests.map((featureRequest) => (
+									<FeatureRequestCard
+										key={featureRequest._id}
+										featureRequest={featureRequest}
+									/>
+								))}
+							{/* pagination */}
+							<Pagination
+								count={pageCount}
+								page={page}
+								onChange={handlePageChange}
+							/>
+						</>
+					)}
+				</div>
 			</div>
 		</div>
 	);

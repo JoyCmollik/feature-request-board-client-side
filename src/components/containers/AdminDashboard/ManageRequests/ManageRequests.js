@@ -16,7 +16,7 @@ const ManageRequests = () => {
 		client
 			.get('/requests')
 			.then((response) => {
-				const requests = response.data;
+				const requests = response.data.requests;
 				requests.length ? setIsNoOrder(false) : setIsNoOrder(true);
 				setTriggerFetching(false);
 				setAllRequests(requests);
