@@ -4,12 +4,12 @@ const useSorting = () => {
 		// number
 		if (key === 'votes' || key === 'comments') {
 			if (order === 'asc') {
-				console.log('asc');
+				// console.log('asc');
 				return data.sort(function (a, b) {
 					return a[key].length - b[key].length;
 				});
 			} else {
-				console.log('desc');
+				// console.log('desc');
 				return data.sort(function (a, b) {
 					return b[key].length - a[key].length;
 				});

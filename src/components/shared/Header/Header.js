@@ -1,13 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
+import { MdLogin, MdLogout, MdAdminPanelSettings } from 'react-icons/md';
+import { Avatar, ListItemIcon, MenuItem } from '@mui/material';
+import { motion } from 'framer-motion';
+import CustomMenu from '../CustomMenu/CustomMenu';
 
 const Header = ({ boardDetail }) => {
+	const [anchorEl, setAnchorEl] = useState(null);
 	const { user, isAdmin, handleSignOut } = useAuth();
+
+	// framer-motion-animations-variants
+	const buttonAnimation = {
+		hidden: { scale: 0, opacity: 0, x: 400 },
+		visible: {
+			x: 0,
+			scale: 1,
+			opacity: 1,
+			transition: {
+				type: 'spring',
+				stiffness: 260,
+				damping: 40,
+			},
+		},
+	};
+
 	return (
-		<header className='bg-dark text-white py-2'>
-			<div className='container mx-auto flex justify-between items-center'>
-				<div className=''>
+		<header className='bg-dark text-white px-2 lg:px-0 py-2'>
+			<div className='container mx-auto py-2 flex justify-between items-center'>
+				{/* logo */}
+				<div>
 					<Link to='/'>
 						{boardDetail && (
 							<img
@@ -18,31 +40,69 @@ const Header = ({ boardDetail }) => {
 						)}
 					</Link>
 				</div>
-				<div className='flex items-center space-x-2'>
+				{/* links and user info */}
+				<div className='bg-white bg-opacity-10 p-1 rounded-lg flex justify-between items-center space-x-2'>
+					{/* admin dashboard link */}
 					{user && isAdmin && (
 						<Link to='/dashboard'>
-							<button className='bg-white bg-opacity-10 px-4 py-2 rounded-lg'>
-								Admin Dashboard
-							</button>
+							<motion.button
+								variants={buttonAnimation}
+								initial='hidden'
+								animate='visible'
+								className='px-4 py-2 rounded-lg bg-dark text-white text-xl flex justify-center items-center space-x-1 '
+							>
+								<span className='text-xs'>Admin</span>
+								<MdAdminPanelSettings />
+							</motion.button>
 						</Link>
 					)}
+					{/* sign in button and user credentials */}
 					{!user ? (
 						<Link to='userlogin'>
-							<button className='bg-white bg-opacity-10 px-4 py-2 rounded-lg'>
-								Log In
-							</button>
+							<motion.button
+								variants={buttonAnimation}
+								initial='hidden'
+								animate='visible'
+								className='px-4 py-2 rounded-lg bg-dark text-white text-xl flex justify-center items-center space-x-1'
+							>
+								<span className='text-xs'>Login</span>
+								<MdLogin />
+							</motion.button>
 						</Link>
 					) : (
 						<>
-							<p className='hidden lg:block'>
-								{user?.displayName}
-							</p>
-							<button
-								className='bg-white bg-opacity-10 px-4 py-2 rounded-lg'
-								onClick={handleSignOut}
+							<motion.button
+								variants={buttonAnimation}
+								initial='hidden'
+								animate='visible'
+								className='flex justify-between items-center bg-dark rounded-lg px-4 py-2 space-x-1'
+								onClick={(event) =>
+									setAnchorEl(event.currentTarget)
+								}
 							>
-								Sign Out
-							</button>
+								<p className='text-xs'>
+									{user?.displayName.split(' ', 1)[0]}
+								</p>
+								<Avatar
+									src={user?.photoURL}
+									sx={{ width: '20px', height: '20px' }}
+								/>
+							</motion.button>
+							{/* menu for user credentials */}
+							<CustomMenu
+								anchorEl={anchorEl}
+								setAnchorEl={setAnchorEl}
+							>
+								<MenuItem
+									onClick={handleSignOut}
+									onClose={() => setAnchorEl(null)}
+								>
+									<ListItemIcon>
+										<MdLogout />
+									</ListItemIcon>
+									Logout
+								</MenuItem>
+							</CustomMenu>
 						</>
 					)}
 				</div>

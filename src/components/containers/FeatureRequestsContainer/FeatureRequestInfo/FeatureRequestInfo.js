@@ -20,6 +20,25 @@ const FeatureRequestInfo = ({ featureRequest }) => {
 	const { user } = useAuth();
 	const { client } = useAxios();
 
+	// getting status color
+	let statusColor = '';
+	switch (status) {
+		case 'pending':
+			statusColor = ' bg-purple-200 text-purple-500';
+			break;
+		case 'under-review':
+			statusColor = ' bg-indigo-200 text-indigo-500';
+			break;
+		case 'planned':
+			statusColor = ' bg-blue-200 text-blue-500';
+			break;
+		case 'in-progress':
+			statusColor = ' bg-yellow-200 text-yellow-500';
+			break;
+		default:
+			statusColor = ' bg-green-200 text-green-500';
+	}
+
 	const handleRequestVoting = (request_id, user_id) => {
 		let newVotes = [];
 		if (user_id) {
@@ -51,7 +70,9 @@ const FeatureRequestInfo = ({ featureRequest }) => {
 				<h4 className='text-xl font-medium text-black'>
 					{request_title}
 				</h4>
-				<p className='self-start px-2 py-1 bg-purple-200 text-purple-500 text-sm rounded-lg'>
+				<p
+					className={`self-start px-2 py-1 ${statusColor} text-sm rounded-lg`}
+				>
 					{status}
 				</p>
 			</div>

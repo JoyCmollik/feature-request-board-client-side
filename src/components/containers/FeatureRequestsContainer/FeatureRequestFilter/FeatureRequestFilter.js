@@ -47,9 +47,12 @@ const FeatureRequestFilter = (props) => {
 	} = props;
 
 	return (
-		<div className='p-4 space-y-2 text-gray-500'>
+		<div className='p-4 space-y-4 text-gray-500'>
 			{/* filter by status */}
-			<div className='rounded-lg bg-white p-2 space-y-2'>
+			<div
+				className='rounded-lg bg-white p-2 space-y-2
+			 box-shadow'
+			>
 				<h4 className='uppercase text-lg text-black font-semibold'>
 					Filter by status
 				</h4>
@@ -83,7 +86,7 @@ const FeatureRequestFilter = (props) => {
 				</div>
 			</div>
 			{/* sort items */}
-			<div className='rounded-lg bg-white p-2 space-y-2'>
+			<div className='rounded-lg bg-white p-2 space-y-2 box-shadow'>
 				<h4 className='uppercase text-lg font-semibold text-black'>
 					Sort by
 				</h4>

@@ -5,6 +5,7 @@ import FeatureRequestFilter from '../FeatureRequestFilter/FeatureRequestFilter';
 import { BsSearch } from 'react-icons/bs';
 import Pagination from '@mui/material/Pagination';
 import loading from '../../../../images/loading.png';
+import { motion } from 'framer-motion';
 
 const FeatureRequestList = () => {
 	const [featureRequests, setFeatureRequests] = useState([]);
@@ -159,6 +160,19 @@ const FeatureRequestList = () => {
 		}
 	};
 
+	// framer-motion-animations-variants
+	const container = {
+		hidden: { opacity: 1, scale: 0 },
+		visible: {
+			opacity: 1,
+			scale: 1,
+			transition: {
+				delayChildren: 0.3,
+				staggerChildren: 0.2,
+			},
+		},
+	};
+
 	return (
 		<div className='grid grid-cols-12' style={{ minHeight: '70vh' }}>
 			<div className='hidden lg:block bg-light col-span-4 m-2 rounded-lg'>
@@ -169,10 +183,10 @@ const FeatureRequestList = () => {
 					handleSetSortBy={handleSetSortBy}
 				/>
 			</div>
-			<div className='col-span-12 lg:col-span-8 p-4 space-y-4'>
-				{/* search query */}
+			<div className='col-span-12 lg:col-span-8 p-2 lg:p-4 space-y-4'>
 				<div className='flex justify-between items-center space-x-5'>
-					<div className='flex-grow flex items-center space-x box-shadow border rounded-lg'>
+					{/* search query */}
+					<div className='flex-grow flex items-center space-x box-shadow border rounded-lg overflow-hidden'>
 						<BsSearch
 							style={{ fontSize: '20px', margin: '0 10px' }}
 						/>
@@ -210,21 +224,35 @@ const FeatureRequestList = () => {
 							/>
 						</div>
 					) : (
-						<>
-							{displayRequests &&
+						<motion.div
+							className='space-y-4'
+							variants={container}
+							initial='hidden'
+							animate='visible'
+						>
+							{displayRequests.length ? (
 								displayRequests.map((featureRequest) => (
 									<FeatureRequestCard
 										key={featureRequest._id}
 										featureRequest={featureRequest}
 									/>
-								))}
+								))
+							) : (
+								<div className='my-4 p-4 bg-red-100 text-red-500 rounded box-shadow'>
+									No posts available to show.
+								</div>
+							)}
 							{/* pagination */}
-							<Pagination
-								count={pageCount}
-								page={page}
-								onChange={handlePageChange}
-							/>
-						</>
+							{displayRequests.length > 0 && (
+								<div className='p-2 rounded box-shadow'>
+									<Pagination
+										count={pageCount}
+										page={page}
+										onChange={handlePageChange}
+									/>
+								</div>
+							)}
+						</motion.div>
 					)}
 				</div>
 			</div>

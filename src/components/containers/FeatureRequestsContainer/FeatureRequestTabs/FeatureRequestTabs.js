@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 const FeaturedRequestTabs = () => {
 	return (
-		<div className='p-1 bg-white'>
+		<div className='p-1 px-2 lg:px-1 bg-white'>
 			<div className='container mx-auto flex items-center space-x-4 p-2 bg-secondary rounded-lg'>
 				<NavLink
 					to='list'

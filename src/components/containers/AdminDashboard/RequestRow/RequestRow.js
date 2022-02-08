@@ -21,10 +21,12 @@ const RequestRow = ({ request, handleStatus, handleDeleteRequest }) => {
 		comments,
 		votes,
 	} = request;
+
 	const handleStatusUpdate = (e) => {
 		const value = e.target.value;
 		handleStatus(value, _id);
 	};
+
 	return (
 		<tr>
 			{/* user */}

@@ -6,6 +6,7 @@ import moment from 'moment';
 import useAxios from '../../../../hooks/useAxios';
 import useAuth from '../../../../hooks/useAuth';
 import { Avatar } from '@mui/material';
+import { motion } from 'framer-motion/dist/es/index';
 
 // 'pending',
 // 	'under-review',
@@ -74,8 +75,21 @@ const FeatureRequestCard = ({ featureRequest }) => {
 		return;
 	};
 
+	// framer-motion-animations-variants
+	const item = {
+		hidden: { y: 20, opacity: 0 },
+		visible: {
+			y: 0,
+			opacity: 1,
+			duration: 2,
+		},
+	};
+
 	return (
-		<div className='box-shadow rounded-lg p-2 space-y-2 text-gray-500'>
+		<motion.div
+			variants={item}
+			className='box-shadow rounded-lg p-4 space-y-2 text-gray-500'
+		>
 			{/* status & time */}
 			<div className='flex justify-between items-center text-sm'>
 				<p className={`px-2 py-1 rounded-lg ${statusColor}`}>
@@ -98,7 +112,7 @@ const FeatureRequestCard = ({ featureRequest }) => {
 			{/* vote & userInfo & comment */}
 			<div className='flex justify-between items-center'>
 				{/* vote */}
-				<div className='p-2 space-x-2 flex items-center'>
+				<div className='py-2 space-x-2 flex items-center'>
 					<button
 						onClick={() => handleRequestVoting(_id, user?.uid)}
 						className='bg-gray-400 hover:bg-secondary text-white px-2 py-1 rounded-lg text-xl'
@@ -130,7 +144,7 @@ const FeatureRequestCard = ({ featureRequest }) => {
 					</div>
 				</div>
 			</div>
-		</div>
+		</motion.div>
 	);
 };
 

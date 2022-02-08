@@ -3,9 +3,10 @@ import { Outlet } from 'react-router';
 import useAxios from '../../../hooks/useAxios';
 import FeatureBoard from '../../shared/FeatureBoard/FeatureBoard';
 import Header from '../../shared/Header/Header';
+import loadingPng from '../../../images/loading.png';
 
 const Home = () => {
-	const [boardDetail, setBoardDetail] = useState({});
+	const [boardDetail, setBoardDetail] = useState(null);
 	const { admin } = useAxios();
 
 	useEffect(() => {
@@ -21,9 +22,21 @@ const Home = () => {
 
 	return (
 		<>
-			<Header boardDetail={boardDetail} />
-			<FeatureBoard boardDetail={boardDetail} />
-			<Outlet />
+			{boardDetail ? (
+				<>
+					<Header boardDetail={boardDetail} />
+					<FeatureBoard boardDetail={boardDetail} />
+					<Outlet />
+				</>
+			) : (
+				<div className='h-screen flex justify-center items-center'>
+					<img
+						className='object-cover w-28'
+						src={loadingPng}
+						alt='loadingPics'
+					/>
+				</div>
+			)}
 		</>
 	);
 };
