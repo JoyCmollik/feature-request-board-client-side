@@ -4,6 +4,7 @@ import useAxios from '../../../hooks/useAxios';
 import FeatureBoard from '../../shared/FeatureBoard/FeatureBoard';
 import Header from '../../shared/Header/Header';
 import loadingPng from '../../../images/loading.png';
+import Footer from '../../shared/Footer/Footer';
 
 const Home = () => {
 	const [boardDetail, setBoardDetail] = useState(null);
@@ -27,6 +28,7 @@ const Home = () => {
 					<Header boardDetail={boardDetail} />
 					<FeatureBoard boardDetail={boardDetail} />
 					<Outlet />
+					<Footer />
 				</>
 			) : (
 				<div className='h-screen flex justify-center items-center'>
