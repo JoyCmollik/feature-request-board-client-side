@@ -28,7 +28,7 @@ const Home = () => {
 					<Header boardDetail={boardDetail} />
 					<FeatureBoard boardDetail={boardDetail} />
 					<Outlet />
-					<Footer />
+					{/* <Footer /> */}
 				</>
 			) : (
 				<div className='h-screen flex justify-center items-center'>
