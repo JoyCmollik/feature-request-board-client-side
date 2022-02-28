@@ -1,6 +1,7 @@
 import React from 'react';
 import { HiCheck } from 'react-icons/hi';
 import { BsQuestion } from 'react-icons/bs';
+import { motion } from 'framer-motion';
 
 const statusList = [
 	'all-status',
@@ -58,7 +59,7 @@ const FeatureRequestFilter = (props) => {
 				</h4>
 				<div className='flex flex-wrap'>
 					{statusList.map((status, statusIdx) => (
-						<button
+						<motion.button
 							key={statusIdx}
 							onClick={() => handleFilterStatus(status)}
 							className={`capitalize slide-in-fwd-center p-1 rounded-lg font-medium space-x-2 flex items-center mr-2 mb-2 ${
@@ -67,11 +68,21 @@ const FeatureRequestFilter = (props) => {
 									: 'bg-light'
 							}`}
 						>
-							<span>{status}</span>
+							<motion.span
+								whileHover={{
+									scale: 0.91,
+								}}
+								transition={{
+									type: 'spring',
+									stiffness: '250',
+								}}
+							>
+								{status}
+							</motion.span>
 							<span
 								className={`p-1 rounded-lg text-green-700 ${
 									filterStatus === status
-										? 'slide-in-fwd-center bg-light'
+										? ' bg-light'
 										: 'bg-brand '
 								}`}
 							>
@@ -81,7 +92,7 @@ const FeatureRequestFilter = (props) => {
 									<BsQuestion />
 								)}
 							</span>
-						</button>
+						</motion.button>
 					))}
 				</div>
 			</div>

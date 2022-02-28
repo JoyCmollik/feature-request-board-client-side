@@ -8,11 +8,32 @@ import useAuth from '../../../../hooks/useAuth';
 import { Avatar } from '@mui/material';
 import { motion } from 'framer-motion/dist/es/index';
 
-// 'pending',
-// 	'under-review',
-// 	'planned',
-// 	'in-progress',
-// 	'complete',
+// framer-motion-animations-variants //
+// for cards
+const item = {
+	hidden: { y: 20, opacity: 0 },
+	visible: {
+		y: 0,
+		opacity: 1,
+		duration: 2,
+	},
+};
+
+// framer-motion-animations-variants
+const voteAnimation = {
+	hidden: { scale: 10, x: 800 },
+	visible: {
+		x: 0,
+		scale: 1,
+		opacity: 1,
+		transition: {
+			type: 'spring',
+			stiffness: 260,
+			damping: 40,
+		},
+		duration: 10,
+	},
+};
 
 const FeatureRequestCard = ({ featureRequest }) => {
 	const {
@@ -75,16 +96,6 @@ const FeatureRequestCard = ({ featureRequest }) => {
 		return;
 	};
 
-	// framer-motion-animations-variants
-	const item = {
-		hidden: { y: 20, opacity: 0 },
-		visible: {
-			y: 0,
-			opacity: 1,
-			duration: 2,
-		},
-	};
-
 	return (
 		<motion.div
 			variants={item}
@@ -118,12 +129,24 @@ const FeatureRequestCard = ({ featureRequest }) => {
 						className='bg-gray-400 hover:bg-secondary text-white px-2 py-1 rounded-lg text-xl'
 					>
 						{voteList.indexOf(user?.uid) !== -1 ? (
-							<HiThumbUp />
+							<motion.span
+								animate={{ scale: [1.8, 1.5, 1] }}
+								transition={{ duration: 4, times: [0, 0.2, 1] }}
+							>
+								<HiThumbUp />
+							</motion.span>
 						) : (
-							<HiOutlineThumbUp />
+							<motion.span
+								animate={{ scale: [1.8, 1.5, 1] }}
+								transition={{ duration: 4, times: [0, 0.2, 1] }}
+							>
+								<HiOutlineThumbUp />
+							</motion.span>
 						)}
 					</button>
-					<span className='text-lg'>{voteList.length}</span>
+					<motion.span className='text-lg'>
+						{voteList.length}
+					</motion.span>
 				</div>
 				<div className='flex items-center space-x-4'>
 					{/* userInfo */}
