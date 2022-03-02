@@ -6,7 +6,8 @@ import moment from 'moment';
 import useAxios from '../../../../hooks/useAxios';
 import useAuth from '../../../../hooks/useAuth';
 import { Avatar } from '@mui/material';
-import { motion } from 'framer-motion/dist/es/index';
+import { motion, AnimatePresence } from 'framer-motion/dist/es/index';
+import useFramerMotion from '../../../../hooks/useFramerMotion';
 
 // framer-motion-animations-variants //
 // for cards
@@ -16,22 +17,6 @@ const item = {
 		y: 0,
 		opacity: 1,
 		duration: 2,
-	},
-};
-
-// framer-motion-animations-variants
-const voteAnimation = {
-	hidden: { scale: 10, x: 800 },
-	visible: {
-		x: 0,
-		scale: 1,
-		opacity: 1,
-		transition: {
-			type: 'spring',
-			stiffness: 260,
-			damping: 40,
-		},
-		duration: 10,
 	},
 };
 
@@ -51,6 +36,7 @@ const FeatureRequestCard = ({ featureRequest }) => {
 	const { user } = useAuth();
 	const navigate = useNavigate();
 	const [voteList, setVoteList] = useState([...votes]);
+	const { voteAnimation } = useFramerMotion();
 
 	// getting status color
 	let statusColor = '';
@@ -123,31 +109,40 @@ const FeatureRequestCard = ({ featureRequest }) => {
 			{/* vote & userInfo & comment */}
 			<div className='flex justify-between items-center'>
 				{/* vote */}
-				<div className='py-2 space-x-2 flex items-center'>
-					<button
-						onClick={() => handleRequestVoting(_id, user?.uid)}
-						className='bg-gray-400 hover:bg-secondary text-white px-2 py-1 rounded-lg text-xl'
-					>
-						{voteList.indexOf(user?.uid) !== -1 ? (
-							<motion.span
-								animate={{ scale: [1.8, 1.5, 1] }}
-								transition={{ duration: 4, times: [0, 0.2, 1] }}
+				<AnimatePresence exitBeforeEnter>
+					<div className='py-2 space-x-2 flex items-center'>
+						{voteList.indexOf(user?.uid) !== -1 && (
+							<motion.button
+								onClick={() =>
+									handleRequestVoting(_id, user?.uid)
+								}
+								className='bg-gray-400 hover:bg-secondary text-white px-2 py-1 rounded-lg text-xl'
+								variants={voteAnimation}
+								initial='hidden'
+								animate='visible'
+								exit='exit'
 							>
 								<HiThumbUp />
-							</motion.span>
-						) : (
-							<motion.span
-								animate={{ scale: [1.8, 1.5, 1] }}
-								transition={{ duration: 4, times: [0, 0.2, 1] }}
+							</motion.button>
+						)}
+						{voteList.indexOf(user?.uid) === -1 && (
+							<motion.button
+								onClick={() =>
+									handleRequestVoting(_id, user?.uid)
+								}
+								className='bg-gray-400 hover:bg-secondary text-white px-2 py-1 rounded-lg text-xl'
+								variants={voteAnimation}
+								initial='hidden'
+								animate='visible'
+								exit='exit'
 							>
 								<HiOutlineThumbUp />
-							</motion.span>
+							</motion.button>
 						)}
-					</button>
-					<motion.span className='text-lg'>
-						{voteList.length}
-					</motion.span>
-				</div>
+
+						<span className='text-lg'>{voteList.length}</span>
+					</div>
+				</AnimatePresence>
 				<div className='flex items-center space-x-4'>
 					{/* userInfo */}
 					<div className='flex items-center space-x-2'>

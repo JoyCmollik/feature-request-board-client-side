@@ -4,12 +4,36 @@ import DashboardSidebar from '../DashboardSidebar/DashboardSidebar';
 import DashboardNav from '../DashboardNav/DashboardNav';
 import useAuth from '../../../../hooks/useAuth';
 import { Avatar } from '@mui/material';
+import { motion } from 'framer-motion';
+
+// framer-motion animations
+const containerVariants = {
+	hidden: {
+		x: '100vw',
+		opacity: 0,
+	},
+	visible: {
+		x: 0,
+		opacity: 1,
+	},
+	exit: {
+		x: '100vw',
+		opacity: 0,
+		transition: { ease: 'easeInOut' },
+	},
+};
 
 const DashboardHome = () => {
 	const { user } = useAuth();
 
 	return (
-		<div className='lg:grid grid-cols-12 min-h-screen'>
+		<motion.div
+			className='lg:grid grid-cols-12 min-h-screen'
+			// variants={containerVariants}
+			// initial='hidden'
+			// animate='visible'
+			// exit='exit'
+		>
 			<div className='col-span-3'>
 				<DashboardSidebar />
 				<DashboardNav />
@@ -27,7 +51,7 @@ const DashboardHome = () => {
 				</div>
 				<Outlet />
 			</div>
-		</div>
+		</motion.div>
 	);
 };
 

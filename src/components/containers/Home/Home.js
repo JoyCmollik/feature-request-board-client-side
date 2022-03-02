@@ -22,12 +22,14 @@ const Home = () => {
 	}, []);
 
 	return (
-		<>
+		<div className='min-h-screen flex flex-col justify-between'>
 			{boardDetail ? (
 				<>
 					<Header boardDetail={boardDetail} />
 					<FeatureBoard boardDetail={boardDetail} />
-					<Outlet />
+					<div className='flex-grow'>
+						<Outlet />
+					</div>
 					<Footer />
 				</>
 			) : (
@@ -39,7 +41,7 @@ const Home = () => {
 					/>
 				</div>
 			)}
-		</>
+		</div>
 	);
 };
 

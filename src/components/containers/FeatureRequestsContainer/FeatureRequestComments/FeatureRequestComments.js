@@ -2,15 +2,19 @@ import React, { useEffect, useRef, useState } from 'react';
 import useAuth from '../../../../hooks/useAuth';
 import useAxios from '../../../../hooks/useAxios';
 import FeatureRequestComment from '../FeatureRequestComment/FeatureRequestComment';
+import { motion, AnimatePresence } from 'framer-motion';
+import useFramerMotion from '../../../../hooks/useFramerMotion';
 
 const FeatureRequestComments = ({ _id }) => {
 	const [featureRequestComments, setFeatureRequestComments] = useState([]);
 	const [triggerFetching, setTriggerFetching] = useState(true);
-	const [isDeleting, setIsDeleting] = useState(false);
+	const [isDeleting, setIsDeleting] = useState({ _id: '', status: false });
 	const [isCommenting, setIsCommenting] = useState(false);
 	const { user } = useAuth();
 	const commentRef = useRef('');
 	const { client } = useAxios();
+	const { opacityVariant, commentContainerVariant, commentVariant } =
+		useFramerMotion();
 
 	// // fetching available comments of this feature post
 	useEffect(() => {
@@ -83,7 +87,7 @@ const FeatureRequestComments = ({ _id }) => {
 
 	// DELETE comment
 	const handleCommentDelete = (comment_id) => {
-		setIsDeleting(true);
+		setIsDeleting({ _id: comment_id, status: true });
 		// 1. remove from feature request posts comments array
 		// 2. delete from comments collection
 		const data = { comment_id, request_id: _id, action: 0 };
@@ -93,6 +97,12 @@ const FeatureRequestComments = ({ _id }) => {
 			.then((response) => {
 				if (response.data.modifiedCount) {
 					handleCommentDeleteFromCollection(comment_id);
+					// filtering comment lists
+					setFeatureRequestComments(() => {
+						return featureRequestComments.filter(
+							(comment) => comment._id !== comment_id
+						);
+					});
 				}
 			})
 			.catch((error) => {
@@ -105,8 +115,7 @@ const FeatureRequestComments = ({ _id }) => {
 			.delete(`/comment/${comment_id}`)
 			.then((response) => {
 				if (response.data.deletedCount) {
-					setIsDeleting(false);
-					setTriggerFetching(true);
+					setIsDeleting({ _id: '', status: false });
 				}
 			})
 			.catch((error) => {
@@ -122,13 +131,15 @@ const FeatureRequestComments = ({ _id }) => {
 						className='w-full flex flex-col space-y-4'
 						onSubmit={handleSubmit}
 					>
-						<textarea
+						<motion.textarea
+							variants={opacityVariant}
 							className='shadow h-28 bg-light p-4 outline-none rounded-lg'
 							style={{ resize: 'none' }}
 							placeholder='Write your comment here...'
 							ref={commentRef}
-						></textarea>
-						<input
+						/>
+						<motion.input
+							variants={commentVariant}
 							className={`self-end px-4 py-2 rounded-lg cursor-pointer transition duration-100 transform ${
 								isCommenting
 									? 'bg-gray-100'
@@ -142,17 +153,24 @@ const FeatureRequestComments = ({ _id }) => {
 				</div>
 			)}
 
-			<div className='space-y-4'>
-				{featureRequestComments &&
-					featureRequestComments.map((featureRequestComment) => (
-						<FeatureRequestComment
-							key={featureRequestComment._id}
-							featureRequestComment={featureRequestComment}
-							handleCommentDelete={handleCommentDelete}
-							isDeleting={isDeleting}
-						/>
-					))}
-			</div>
+			<motion.div
+				variants={commentContainerVariant}
+				initial='hidden'
+				animate='visible'
+				className='space-y-4'
+			>
+				<AnimatePresence>
+					{featureRequestComments &&
+						featureRequestComments.map((featureRequestComment) => (
+							<FeatureRequestComment
+								key={featureRequestComment._id}
+								featureRequestComment={featureRequestComment}
+								handleCommentDelete={handleCommentDelete}
+								isDeleting={isDeleting}
+							/>
+						))}
+				</AnimatePresence>
+			</motion.div>
 		</div>
 	);
 };

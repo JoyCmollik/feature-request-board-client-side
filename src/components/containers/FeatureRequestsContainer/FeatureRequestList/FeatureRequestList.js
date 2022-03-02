@@ -6,33 +6,7 @@ import { BsSearch } from 'react-icons/bs';
 import Pagination from '@mui/material/Pagination';
 import loading from '../../../../images/loading.png';
 import { motion } from 'framer-motion';
-
-// framer-motion-animations-variants
-const container = {
-	hidden: { opacity: 1, scale: 0 },
-	visible: {
-		opacity: 1,
-		scale: 1,
-		transition: {
-			delayChildren: 0.3,
-			staggerChildren: 0.2,
-		},
-	},
-};
-
-const errorMessage = {
-	hidden: { y: 100, scale: 0.9, opacity: 0.4 },
-	visible: {
-		y: 0,
-		scale: 1,
-		opacity: 1,
-		transition: {
-			type: 'spring',
-			stiffness: 120,
-			duration: 0.1,
-		},
-	},
-};
+import useFramerMotion from '../../../../hooks/useFramerMotion';
 
 const FeatureRequestList = () => {
 	const [featureRequests, setFeatureRequests] = useState([]);
@@ -52,6 +26,14 @@ const FeatureRequestList = () => {
 	const [pageCount, setPageCount] = useState(0);
 	const [dataSize, setDataSize] = useState(5);
 	const [dataCount, setDataCount] = useState(0);
+
+	// custom hooks
+	const {
+		containerVariants,
+		listContainerVariant,
+		errorMessageVariant,
+		paginationVariant,
+	} = useFramerMotion();
 
 	// fetching requests
 	useEffect(() => {
@@ -188,7 +170,14 @@ const FeatureRequestList = () => {
 	};
 
 	return (
-		<div className='grid grid-cols-12' style={{ minHeight: '70vh' }}>
+		<motion.div
+			variants={containerVariants}
+			exit='exit'
+			initial='hidden'
+			animate='visible'
+			className='grid grid-cols-12'
+			style={{ minHeight: '70vh' }}
+		>
 			<div className='hidden lg:block bg-light col-span-4 m-2 rounded-lg'>
 				<FeatureRequestFilter
 					filterStatus={filterStatus}
@@ -240,7 +229,7 @@ const FeatureRequestList = () => {
 					) : (
 						<motion.div
 							className='space-y-4'
-							variants={container}
+							variants={listContainerVariant}
 							initial='hidden'
 							animate='visible'
 						>
@@ -253,7 +242,7 @@ const FeatureRequestList = () => {
 								))
 							) : (
 								<motion.div
-									variants={errorMessage}
+									variants={errorMessageVariant}
 									className='my-4 p-4 bg-red-100 text-red-500 rounded box-shadow'
 								>
 									No posts available to show.
@@ -261,19 +250,22 @@ const FeatureRequestList = () => {
 							)}
 							{/* pagination */}
 							{displayRequests.length > 0 && (
-								<div className='p-2 rounded box-shadow'>
+								<motion.div
+									variants={paginationVariant}
+									className='p-2 rounded box-shadow'
+								>
 									<Pagination
 										count={pageCount}
 										page={page}
 										onChange={handlePageChange}
 									/>
-								</div>
+								</motion.div>
 							)}
 						</motion.div>
 					)}
 				</div>
 			</div>
-		</div>
+		</motion.div>
 	);
 };
 

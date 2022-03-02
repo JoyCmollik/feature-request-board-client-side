@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import useAuth from '../../../../hooks/useAuth';
 import useAxios from '../../../../hooks/useAxios';
+import { motion } from 'framer-motion';
+import useFramerMotion from '../../../../hooks/useFramerMotion';
 
 const CreateFeatureRequest = () => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -15,6 +17,7 @@ const CreateFeatureRequest = () => {
 		handleSubmit,
 		reset,
 	} = useForm();
+	const { containerVariants } = useFramerMotion();
 
 	const onSubmit = (data) => {
 		// setting initial request properties
@@ -43,7 +46,11 @@ const CreateFeatureRequest = () => {
 	};
 
 	return (
-		<div
+		<motion.div
+			variants={containerVariants}
+			exit='exit'
+			initial='hidden'
+			animate='visible'
 			className='flex flex-col justify-center items-center'
 			style={{ minHeight: '50vh' }}
 		>
@@ -110,7 +117,7 @@ const CreateFeatureRequest = () => {
 					</button>
 				</form>
 			</div>
-		</div>
+		</motion.div>
 	);
 };
 

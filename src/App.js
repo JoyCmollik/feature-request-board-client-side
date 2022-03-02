@@ -1,10 +1,5 @@
 import './App.css';
-import {
-	BrowserRouter as Router,
-	Routes,
-	Route,
-	Navigate,
-} from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import FeatureRequests from './components/containers/FeatureRequestsContainer/FeatureRequests/FeatureRequests';
 import CreateFeatureRequest from './components/containers/FeatureRequestsContainer/CreateFeatureRequest/CreateFeatureRequest';
 import FeatureRequestList from './components/containers/FeatureRequestsContainer/FeatureRequestList/FeatureRequestList';
@@ -20,7 +15,8 @@ import ConfigureDashboard from './components/containers/AdminDashboard/Configure
 
 function App() {
 	return (
-		<Router>
+		<>
+			{/* <AnimatePresence> */}
 			<Routes>
 				<Route path='/' element={<Navigate to='home' />} />
 				<Route path='home' element={<Home />}>
@@ -76,7 +72,8 @@ function App() {
 					/>
 				</Route>
 			</Routes>
-		</Router>
+			{/* </AnimatePresence> */}
+		</>
 	);
 }
 

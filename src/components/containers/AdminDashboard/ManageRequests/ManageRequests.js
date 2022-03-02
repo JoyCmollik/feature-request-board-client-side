@@ -53,7 +53,12 @@ const ManageRequests = () => {
 	const handleDeleteRequest = (_id) => {
 		if (_id) {
 			admin.delete(`/request/${_id}`).then((response) => {
-				if (response.data.deletedCount) {
+				console.log(response);
+				if (response.data.acknowledged) {
+					// const newDisplayRequests = displayRequests.filter(
+					// 	(request) => request._id !== _id
+					// );
+					// setDisplayRequests(newDisplayRequests);
 					setTriggerFetching(true);
 				}
 			});

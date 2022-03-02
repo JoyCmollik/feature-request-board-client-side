@@ -2,15 +2,23 @@ import React from 'react';
 import moment from 'moment';
 import { Avatar } from '@mui/material';
 import useAuth from '../../../../hooks/useAuth';
+import { motion } from 'framer-motion';
+import useFramerMotion from '../../../../hooks/useFramerMotion';
 
 const FeatureRequestComment = (props) => {
 	const { featureRequestComment, handleCommentDelete, isDeleting } = props;
 	const { _id, commentText, user_name, user_img, user_id, createdAt } =
 		featureRequestComment;
 	const { user } = useAuth();
+	const { commentVariant } = useFramerMotion();
 
 	return (
-		<div className='flex space-x-2'>
+		<motion.div
+			variants={commentVariant}
+			initial='hidden'
+			exit='exit'
+			className='flex space-x-2'
+		>
 			<Avatar
 				sx={{ width: '25px', height: '25px', fontSize: '16px' }}
 				alt={user_name}
@@ -28,15 +36,21 @@ const FeatureRequestComment = (props) => {
 								onClick={() => {
 									handleCommentDelete(_id);
 								}}
-								disabled={isDeleting}
+								disabled={isDeleting?.status}
 							>
-								delete
+								{isDeleting?._id === _id ? (
+									<span className='text-red-400'>
+										deleting...
+									</span>
+								) : (
+									'delete'
+								)}
 							</button>
 						</>
 					)}
 				</div>
 			</div>
-		</div>
+		</motion.div>
 	);
 };
 

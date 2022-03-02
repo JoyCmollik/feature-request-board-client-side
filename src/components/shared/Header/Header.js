@@ -6,24 +6,35 @@ import { Avatar, ListItemIcon, MenuItem } from '@mui/material';
 import { motion } from 'framer-motion';
 import CustomMenu from '../CustomMenu/CustomMenu';
 
+// framer-motion-animations-variants
+const buttonAnimation = {
+	hidden: { scale: 0, opacity: 0, x: 400 },
+	visible: {
+		x: 0,
+		scale: 1,
+		opacity: 1,
+		transition: {
+			type: 'spring',
+			stiffness: 260,
+			damping: 40,
+		},
+	},
+};
+
+const logoAnimation = {
+	hover: {
+		scale: 1.18,
+		x: 1,
+		transition: {
+			yoyo: 10,
+			duration: 0.4,
+		},
+	},
+};
+
 const Header = ({ boardDetail }) => {
 	const [anchorEl, setAnchorEl] = useState(null);
 	const { user, isAdmin, handleSignOut } = useAuth();
-
-	// framer-motion-animations-variants
-	const buttonAnimation = {
-		hidden: { scale: 0, opacity: 0, x: 400 },
-		visible: {
-			x: 0,
-			scale: 1,
-			opacity: 1,
-			transition: {
-				type: 'spring',
-				stiffness: 260,
-				damping: 40,
-			},
-		},
-	};
 
 	return (
 		<header className='bg-dark text-white px-2 lg:px-0 py-2'>
@@ -32,7 +43,9 @@ const Header = ({ boardDetail }) => {
 				<div>
 					<Link to='/'>
 						{boardDetail && (
-							<img
+							<motion.img
+								variants={logoAnimation}
+								whileHover='hover'
 								className='object-cover h-10'
 								src={`data:image/*;base64,${boardDetail?.logo}`}
 								alt={boardDetail?.title}

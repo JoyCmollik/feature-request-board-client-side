@@ -1,6 +1,7 @@
 import React from 'react';
 import RequestRow from '../RequestRow/RequestRow';
 import { TiArrowSortedDown, TiArrowSortedUp } from 'react-icons/ti';
+import { AnimatePresence } from 'framer-motion';
 
 const headingList = [
 	{ key: 'user_name', value: 'user Info' },
@@ -75,17 +76,19 @@ const RequestsTable = ({
 								</tr>
 							</thead>
 							<tbody className='bg-white divide-y divide-gray-200'>
-								{displayRequests &&
-									displayRequests.map((request) => (
-										<RequestRow
-											key={request._id}
-											request={request}
-											handleStatus={handleStatus}
-											handleDeleteRequest={
-												handleDeleteRequest
-											}
-										/>
-									))}
+								<AnimatePresence>
+									{displayRequests &&
+										displayRequests.map((request) => (
+											<RequestRow
+												key={request._id}
+												request={request}
+												handleStatus={handleStatus}
+												handleDeleteRequest={
+													handleDeleteRequest
+												}
+											/>
+										))}
+								</AnimatePresence>
 							</tbody>
 						</table>
 					</div>

@@ -1,6 +1,9 @@
 import React from 'react';
 import { Avatar } from '@mui/material';
 import moment from 'moment';
+import { motion } from 'framer-motion';
+
+// framer-motion animations
 
 const statusList = [
 	'pending',
@@ -28,7 +31,16 @@ const RequestRow = ({ request, handleStatus, handleDeleteRequest }) => {
 	};
 
 	return (
-		<tr>
+		<motion.tr
+			exit={{
+				opacity: 0,
+				x: '100vw',
+				transition: {
+					duration: 0.4,
+					delay: 0.1,
+				},
+			}}
+		>
 			{/* user */}
 			<td className='px-6 py-4 whitespace-nowrap'>
 				<div className='flex items-center'>
@@ -92,7 +104,7 @@ const RequestRow = ({ request, handleStatus, handleDeleteRequest }) => {
 					Delete
 				</button>
 			</td>
-		</tr>
+		</motion.tr>
 	);
 };
 
