@@ -36,7 +36,7 @@ const CreateFeatureRequest = () => {
 			.then((response) => {
 				if (response?.data?.insertedId) {
 					reset();
-					navigate('/home');
+					navigate('/');
 				}
 				console.log(response);
 			})
@@ -48,11 +48,12 @@ const CreateFeatureRequest = () => {
 	return (
 		<motion.div
 			variants={containerVariants}
-			exit='exit'
 			initial='hidden'
 			animate='visible'
+			exit='exit'
 			className='flex flex-col justify-center items-center'
 			style={{ minHeight: '50vh' }}
+			key='create-feature-request'
 		>
 			<h4 className='uppercase text-xl'>Create a feature request</h4>
 			<div className='h-full w-full' style={{ maxWidth: '700px' }}>

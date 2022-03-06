@@ -4,13 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import useAxios from '../../../../hooks/useAxios';
 import FeatureRequestComments from '../FeatureRequestComments/FeatureRequestComments';
 import FeatureRequestInfo from '../FeatureRequestInfo/FeatureRequestInfo';
+import { motion } from 'framer-motion';
+import useFramerMotion from '../../../../hooks/useFramerMotion';
 
 const FeatureRequestDetailPage = () => {
 	const { _id } = useParams();
 	const navigate = useNavigate();
 	const [featureRequest, setFeatureRequest] = useState();
 	const { client } = useAxios();
-	// const [triggerFetching, setTriggerFetching] = useState(true);
+	const { containerVariants } = useFramerMotion();
 
 	useEffect(() => {
 		client
@@ -30,7 +32,14 @@ const FeatureRequestDetailPage = () => {
 	// };
 
 	return (
-		<div className='grid grid-cols-12' style={{ minHeight: '70vh' }}>
+		<motion.div
+			variants={containerVariants}
+			initial='hidden'
+			animate='visible'
+			exit='exit'
+			className='grid grid-cols-12'
+			style={{ minHeight: '70vh' }}
+		>
 			<div className='hidden lg:block bg-light col-span-4 m-2 rounded-lg p-2'>
 				<button
 					onClick={() => navigate('/home/list')}
@@ -50,7 +59,7 @@ const FeatureRequestDetailPage = () => {
 					</>
 				)}
 			</div>
-		</div>
+		</motion.div>
 	);
 };
 

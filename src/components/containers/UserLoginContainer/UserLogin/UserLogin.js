@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import useFramerMotion from '../../../../hooks/useFramerMotion';
 
 const UserLogin = () => {
@@ -24,11 +24,13 @@ const UserLogin = () => {
 				{isLogin ? 'Login' : 'Register'}
 			</h4>
 			<div className='flex-grow flex justify-center'>
-				{isLogin ? (
-					<Login handleToggleLogin={handleToggleLogin} />
-				) : (
-					<Register handleToggleLogin={handleToggleLogin} />
-				)}
+				<AnimatePresence exitBeforeEnter>
+					{isLogin ? (
+						<Login handleToggleLogin={handleToggleLogin} />
+					) : (
+						<Register handleToggleLogin={handleToggleLogin} />
+					)}
+				</AnimatePresence>
 			</div>
 		</motion.div>
 	);

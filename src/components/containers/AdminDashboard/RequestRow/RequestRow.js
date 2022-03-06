@@ -30,8 +30,28 @@ const RequestRow = ({ request, handleStatus, handleDeleteRequest }) => {
 		handleStatus(value, _id);
 	};
 
+	// getting status color
+	let statusColor = '';
+	switch (status) {
+		case 'pending':
+			statusColor = ' bg-purple-200 text-purple-500';
+			break;
+		case 'under-review':
+			statusColor = ' bg-indigo-200 text-indigo-500';
+			break;
+		case 'planned':
+			statusColor = ' bg-blue-200 text-blue-500';
+			break;
+		case 'in-progress':
+			statusColor = ' bg-yellow-200 text-yellow-500';
+			break;
+		default:
+			statusColor = ' bg-green-200 text-green-500';
+	}
+
 	return (
 		<motion.tr
+			layout
 			exit={{
 				opacity: 0,
 				x: '100vw',
@@ -86,7 +106,7 @@ const RequestRow = ({ request, handleStatus, handleDeleteRequest }) => {
 				<select
 					onChange={handleStatusUpdate}
 					defaultValue={status}
-					className='pl-2 py-1 rounded-lg bg-green-100 text-green-700 outline-none'
+					className={`pl-2 py-1 rounded-lg outline-none ${statusColor}`}
 				>
 					{statusList.map((status, statusIdx) => (
 						<option key={statusIdx} value={status}>

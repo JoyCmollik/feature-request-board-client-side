@@ -13,7 +13,7 @@ const statusList = [
 ];
 
 // fixed data for sorting buttons
-const sortList = [
+const sortItems = [
 	{ id: 1, type: 'Newest', order: 'asc', key: 'default' },
 	{ id: 2, type: 'votes (higher to lower)', order: 'desc', key: 'votes' },
 	{
@@ -36,7 +36,6 @@ const sortList = [
 	},
 	{ id: 6, type: 'A-Z', order: 'asc', key: 'request_title' },
 	{ id: 7, type: 'Z-A', order: 'desc', key: 'request_title' },
-	{ id: 8, type: 'Randomize', order: 'random', key: 'request_title' },
 ];
 
 const FeatureRequestFilter = (props) => {
@@ -59,7 +58,7 @@ const FeatureRequestFilter = (props) => {
 				</h4>
 				<div className='flex flex-wrap'>
 					{statusList.map((status, statusIdx) => (
-						<motion.button
+						<button
 							key={statusIdx}
 							onClick={() => handleFilterStatus(status)}
 							className={`capitalize slide-in-fwd-center p-1 rounded-lg font-medium space-x-2 flex items-center mr-2 mb-2 ${
@@ -92,7 +91,7 @@ const FeatureRequestFilter = (props) => {
 									<BsQuestion />
 								)}
 							</span>
-						</motion.button>
+						</button>
 					))}
 				</div>
 			</div>
@@ -102,7 +101,7 @@ const FeatureRequestFilter = (props) => {
 					Sort by
 				</h4>
 				<div className='space-y-2'>
-					{sortList.map((sortInfo, sortIdx) => (
+					{sortItems.map((sortInfo, sortIdx) => (
 						<button
 							key={sortIdx}
 							onClick={() => handleSetSortBy(sortInfo)}
@@ -112,8 +111,20 @@ const FeatureRequestFilter = (props) => {
 									: 'bg-light'
 							}`}
 						>
-							<span>{sortInfo.type}</span>
-							<span
+							<motion.span
+								whileHover={{
+									x: 4,
+								}}
+								transition={{
+									type: 'spring',
+									stiffness: '250',
+									damping: 10,
+									ease: 'easeOut',
+								}}
+							>
+								{sortInfo.type}
+							</motion.span>
+							<motion.span
 								className={`p-1 rounded-lg text-green-700 ${
 									sortInfo.id === sortStatus.id
 										? 'slide-in-fwd-center bg-light'
@@ -125,7 +136,7 @@ const FeatureRequestFilter = (props) => {
 								) : (
 									<BsQuestion />
 								)}
-							</span>
+							</motion.span>
 						</button>
 					))}
 				</div>

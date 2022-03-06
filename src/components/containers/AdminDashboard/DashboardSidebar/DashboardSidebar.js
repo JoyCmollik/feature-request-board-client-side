@@ -26,7 +26,7 @@ const linkList = [
 		icon: <IoTerminalOutline />,
 	},
 	{
-		to: '/home',
+		to: '/',
 		text: 'Back to Client Side',
 		icon: <IoHome />,
 	},

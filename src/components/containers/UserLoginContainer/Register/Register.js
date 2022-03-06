@@ -5,6 +5,8 @@ import { RiLockPasswordFill, RiLockPasswordLine } from 'react-icons/ri';
 import { useLocation, useNavigate } from 'react-router';
 import useAuth from '../../../../hooks/useAuth';
 import LoginInput from '../../../shared/LoginInput/LoginInput';
+import { motion } from 'framer-motion';
+import useFramerMotion from '../../../../hooks/useFramerMotion';
 
 const initialInput = {
 	name: '',
@@ -18,6 +20,7 @@ const Register = ({ handleToggleLogin }) => {
 	const { handleRegisterUser, error, setError, isLoading } = useAuth();
 	const navigate = useNavigate();
 	const location = useLocation();
+	const { containerVariants } = useFramerMotion();
 
 	const handleInputs = (e) => {
 		setError('');
@@ -43,7 +46,11 @@ const Register = ({ handleToggleLogin }) => {
 	};
 
 	return (
-		<div className='h-full w-full space-y-4' style={{ maxWidth: '400px' }}>
+		<motion.div
+			variants={containerVariants}
+			className='h-full w-full space-y-4'
+			style={{ maxWidth: '400px' }}
+		>
 			<form className='space-y-2' onSubmit={handleRegister}>
 				<LoginInput
 					label='username'
@@ -89,7 +96,7 @@ const Register = ({ handleToggleLogin }) => {
 					Please Login!
 				</button>
 			</div>
-		</div>
+		</motion.div>
 	);
 };
 

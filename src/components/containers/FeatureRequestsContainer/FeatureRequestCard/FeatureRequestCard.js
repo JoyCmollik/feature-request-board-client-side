@@ -85,6 +85,7 @@ const FeatureRequestCard = ({ featureRequest }) => {
 	return (
 		<motion.div
 			variants={item}
+			layout
 			className='box-shadow rounded-lg p-4 space-y-2 text-gray-500'
 		>
 			{/* status & time */}
@@ -118,6 +119,11 @@ const FeatureRequestCard = ({ featureRequest }) => {
 								}
 								className='bg-gray-400 hover:bg-secondary text-white px-2 py-1 rounded-lg text-xl'
 								variants={voteAnimation}
+								whileHover={{
+									scale: 1.2,
+									transition: { duration: 1 },
+								}}
+								whileTap={{ scale: 0.7 }}
 								initial='hidden'
 								animate='visible'
 								exit='exit'
@@ -132,6 +138,7 @@ const FeatureRequestCard = ({ featureRequest }) => {
 								}
 								className='bg-gray-400 hover:bg-secondary text-white px-2 py-1 rounded-lg text-xl'
 								variants={voteAnimation}
+								whileTap={{ scale: 0.7 }}
 								initial='hidden'
 								animate='visible'
 								exit='exit'

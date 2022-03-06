@@ -1,11 +1,7 @@
 import './App.css';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import FeatureRequests from './components/containers/FeatureRequestsContainer/FeatureRequests/FeatureRequests';
-import CreateFeatureRequest from './components/containers/FeatureRequestsContainer/CreateFeatureRequest/CreateFeatureRequest';
-import FeatureRequestList from './components/containers/FeatureRequestsContainer/FeatureRequestList/FeatureRequestList';
 import UserLogin from './components/containers/UserLoginContainer/UserLogin/UserLogin';
-import PrivateRoute from './components/shared/PrivateRoute/PrivateRoute';
-import FeatureRequestDetailPage from './components/containers/FeatureRequestsContainer/FeatureRequestDetailsPage/FeatureRequestDetailPage';
 import Home from './components/containers/Home/Home';
 import DashboardHome from './components/containers/AdminDashboard/DashboardHome/DashboardHome';
 import Dashboard from './components/containers/AdminDashboard/Dashboard/Dashboard';
@@ -16,26 +12,10 @@ import ConfigureDashboard from './components/containers/AdminDashboard/Configure
 function App() {
 	return (
 		<>
-			{/* <AnimatePresence> */}
 			<Routes>
-				<Route path='/' element={<Navigate to='home' />} />
-				<Route path='home' element={<Home />}>
-					<Route path='/home' element={<FeatureRequests />}>
-						<Route index element={<FeatureRequestList />} />
-						<Route path='list' element={<FeatureRequestList />} />
-						<Route
-							path='create'
-							element={
-								<PrivateRoute>
-									<CreateFeatureRequest />
-								</PrivateRoute>
-							}
-						/>
-						<Route
-							path='list/:_id'
-							element={<FeatureRequestDetailPage />}
-						/>
-					</Route>
+				<Route path='/' element={<Navigate to='home/list' />} />
+				<Route path='home/*' element={<Home />}>
+					<Route path='list/*' element={<FeatureRequests />} />
 					<Route path='userlogin' element={<UserLogin />} />
 				</Route>
 				<Route
@@ -72,7 +52,6 @@ function App() {
 					/>
 				</Route>
 			</Routes>
-			{/* </AnimatePresence> */}
 		</>
 	);
 }

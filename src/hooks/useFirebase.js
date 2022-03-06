@@ -61,7 +61,7 @@ const useFirebase = () => {
 				setError('');
 				console.log(result.user);
 
-				const redirectURI = location.state?.from?.pathname || '/home';
+				const redirectURI = location.state?.from?.pathname || '/';
 				navigate(redirectURI);
 			})
 			.catch((error) => {
@@ -81,7 +81,7 @@ const useFirebase = () => {
 				const user = result.user;
 				saveUser(user.email, user.displayName, 'PUT');
 
-				const redirectURI = location.state?.from?.pathname || '/home';
+				const redirectURI = location.state?.from?.pathname || '/';
 				navigate(redirectURI);
 			})
 			.catch((error) => {

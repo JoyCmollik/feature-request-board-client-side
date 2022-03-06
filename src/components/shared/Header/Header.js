@@ -26,8 +26,9 @@ const logoAnimation = {
 		scale: 1.18,
 		x: 1,
 		transition: {
-			yoyo: 10,
-			duration: 0.4,
+			flip: 10,
+			duration: 0.9,
+			ease: 'easeOut',
 		},
 	},
 };

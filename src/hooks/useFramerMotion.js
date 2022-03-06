@@ -2,16 +2,25 @@ const useFramerMotion = () => {
 	// framer-motion animations
 	const containerVariants = {
 		hidden: {
-			x: '100vw',
+			x: '-100vw',
 			opacity: 0,
 		},
 		visible: {
 			x: 0,
 			opacity: 1,
+			transition: {
+				type: 'spring',
+				stiffness: 270,
+				mass: 4,
+				damping: 50,
+				delayChildren: 0.3,
+				staggerChildren: 0.2,
+			},
 		},
 		exit: {
-			x: '-100vw',
-			transition: { ease: 'easeInOut', duration: 0.4 },
+			x: '100vw',
+			opacity: 0,
+			transition: { ease: 'easeOut', duration: 0.1 },
 		},
 	};
 	// animation for votes element

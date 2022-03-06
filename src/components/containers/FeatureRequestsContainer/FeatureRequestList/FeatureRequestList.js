@@ -172,11 +172,12 @@ const FeatureRequestList = () => {
 	return (
 		<motion.div
 			variants={containerVariants}
-			exit='exit'
 			initial='hidden'
 			animate='visible'
+			exit='exit'
 			className='grid grid-cols-12'
 			style={{ minHeight: '70vh' }}
+			key='feature-request-list'
 		>
 			<div className='hidden lg:block bg-light col-span-4 m-2 rounded-lg'>
 				<FeatureRequestFilter

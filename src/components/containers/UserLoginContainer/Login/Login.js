@@ -5,6 +5,8 @@ import { IoMailOutline } from 'react-icons/io5';
 import { RiLockPasswordLine } from 'react-icons/ri';
 import useAuth from '../../../../hooks/useAuth';
 import { FcGoogle } from 'react-icons/fc';
+import { motion } from 'framer-motion';
+import useFramerMotion from '../../../../hooks/useFramerMotion';
 
 const initialInput = {
 	email: '',
@@ -17,6 +19,7 @@ const Login = ({ handleToggleLogin }) => {
 		useAuth();
 	const navigate = useNavigate();
 	const location = useLocation();
+	const { containerVariants } = useFramerMotion();
 
 	const handleInputs = (e) => {
 		setError('');
@@ -38,7 +41,11 @@ const Login = ({ handleToggleLogin }) => {
 	};
 
 	return (
-		<div className='h-full w-full space-y-4' style={{ maxWidth: '400px' }}>
+		<motion.div
+			variants={containerVariants}
+			className='h-full w-full space-y-4'
+			style={{ maxWidth: '400px' }}
+		>
 			<button
 				className='w-full rounded-lg py-2 border text-black box-shadow flex justify-center items-center space-x-2'
 				onClick={() => handleGoogleSignIn(location, navigate)}
@@ -81,7 +88,7 @@ const Login = ({ handleToggleLogin }) => {
 					Please Register Yourself!
 				</button>
 			</div>
-		</div>
+		</motion.div>
 	);
 };
 
