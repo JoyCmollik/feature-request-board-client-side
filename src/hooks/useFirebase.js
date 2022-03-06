@@ -42,7 +42,7 @@ const useFirebase = () => {
 				saveUser(email, name, 'POST');
 
 				// // TODO: fix redirect
-				const redirectURI = location.state?.from?.pathname || '/home';
+				const redirectURI = location.state?.from?.pathname || '/';
 				navigate(redirectURI);
 			})
 			.catch((error) => {
