@@ -8,17 +8,19 @@ import loading from '../../../../images/loading.png';
 import { motion } from 'framer-motion';
 import useFramerMotion from '../../../../hooks/useFramerMotion';
 
+const initialSortBy = {
+	id: 1,
+	type: 'Newest',
+	order: 'asc',
+	key: 'default',
+};
+
 const FeatureRequestList = () => {
 	const [featureRequests, setFeatureRequests] = useState([]);
 	const [displayRequests, setDisplayRequests] = useState([]);
 	const [filterStatus, setFilterStatus] = useState('all-status');
 	const [isLoading, setIsLoading] = useState(true);
-	const [sortBy, setSortBy] = useState({
-		id: 1,
-		type: 'Newest',
-		order: 'asc',
-		key: 'default',
-	});
+	const [sortBy, setSortBy] = useState(initialSortBy);
 	const { client } = useAxios();
 
 	// pagination states
@@ -41,9 +43,7 @@ const FeatureRequestList = () => {
 			.get(`/requests/?page=${page}&&size=${dataSize}`)
 			.then((response) => {
 				const requests = response.data.requests;
-				setFeatureRequests(requests);
-				setDisplayRequests(requests);
-				setIsLoading(false);
+				setFeatureRequests(() => requests);
 
 				// pagination
 				const count = response.data.count;
@@ -53,6 +53,9 @@ const FeatureRequestList = () => {
 			})
 			.catch((error) => {
 				console.log(error);
+			})
+			.finally(() => {
+				setIsLoading(false);
 			});
 	}, [page, dataSize]);
 
@@ -98,13 +101,13 @@ const FeatureRequestList = () => {
 	const handleFilterStatus = (status) => {
 		if (status === filterStatus || !featureRequests.length) return;
 		setFilterStatus(status);
-		handleData(status, sortBy);
+		// handleData(status, sortBy);
 	};
 
 	const handleSetSortBy = (value) => {
 		if (sortBy.id === value.id || !featureRequests.length) return;
 		setSortBy(value);
-		handleData(filterStatus, value);
+		// handleData(filterStatus, value);
 	};
 
 	const handleData = (filterStatus, sort) => {
@@ -168,6 +171,11 @@ const FeatureRequestList = () => {
 			}
 		}
 	};
+
+	// sorting or filtering data on page-changes, status-changes
+	useEffect(() => {
+		handleData(filterStatus, sortBy);
+	}, [featureRequests, filterStatus, sortBy]);
 
 	return (
 		<motion.div

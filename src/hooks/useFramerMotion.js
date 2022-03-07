@@ -20,7 +20,7 @@ const useFramerMotion = () => {
 		exit: {
 			x: '100vw',
 			opacity: 0,
-			transition: { ease: 'easeOut', duration: 0.1 },
+			transition: { ease: 'easeOut' },
 		},
 	};
 	// animation for votes element

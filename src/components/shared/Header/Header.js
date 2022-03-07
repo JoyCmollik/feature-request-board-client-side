@@ -95,32 +95,31 @@ const Header = ({ boardDetail }) => {
 								}
 							>
 								<p className='text-xs'>
-									{user?.displayName.split(' ', 1)[0]}
+									{user?.displayName?.split(' ', 1)[0]}
 								</p>
 								<Avatar
 									src={user?.photoURL}
 									sx={{ width: '20px', height: '20px' }}
 								/>
 							</motion.button>
-							{/* menu for user credentials */}
-							<CustomMenu
-								anchorEl={anchorEl}
-								setAnchorEl={setAnchorEl}
-							>
-								<MenuItem
-									onClick={handleSignOut}
-									onClose={() => setAnchorEl(null)}
-								>
-									<ListItemIcon>
-										<MdLogout />
-									</ListItemIcon>
-									Logout
-								</MenuItem>
-							</CustomMenu>
 						</>
 					)}
 				</div>
 			</div>
+			{/* menu for user credentials */}
+			<CustomMenu anchorEl={anchorEl} setAnchorEl={setAnchorEl}>
+				<MenuItem
+					onClick={() => {
+						handleSignOut();
+						setAnchorEl(null);
+					}}
+				>
+					<ListItemIcon>
+						<MdLogout />
+					</ListItemIcon>
+					Logout
+				</MenuItem>
+			</CustomMenu>
 		</header>
 	);
 };

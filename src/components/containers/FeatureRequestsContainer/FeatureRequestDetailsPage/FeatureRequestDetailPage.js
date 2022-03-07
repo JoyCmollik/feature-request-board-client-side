@@ -37,6 +37,7 @@ const FeatureRequestDetailPage = () => {
 			initial='hidden'
 			animate='visible'
 			exit='exit'
+			layout
 			className='grid grid-cols-12'
 			style={{ minHeight: '70vh' }}
 		>
